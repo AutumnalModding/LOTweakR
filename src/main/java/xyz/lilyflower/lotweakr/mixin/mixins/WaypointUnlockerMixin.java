@@ -1,6 +1,6 @@
-package io.github.rpmyt.opinionation.mixin.mixins.lotr;
+package xyz.lilyflower.lotweakr.mixin.mixins;
 
-import io.github.rpmyt.opinionation.Config;
+import xyz.lilyflower.lotweakr.Config;
 import lotr.common.world.map.LOTRWaypoint;
 import net.minecraft.entity.player.EntityPlayer;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,4 +1,4 @@
-package io.github.rpmyt.opinionation.mixin.plugin;
+package xyz.lilyflower.lotweakr.mixin.plugin;
 
 import cpw.mods.fml.relauncher.FMLLaunchHandler;
 
@@ -15,10 +15,10 @@ public enum Mixin {
     //
 
     // Replace with your own mixins:
-    COSMETICUNLOCKER("lotr.CosmeticUnlockerMixin", TargetedMod.LOTR),
-    WAYPOINTUNLOCKER("lotr.WaypointUnlockerMixin", TargetedMod.LOTR),
-    NEUTRALIFIER("lotr.NPCNeutralifierMixin", TargetedMod.LOTR),
-    COMBATYEETER("lotr.CombatYeeterMixin", TargetedMod.LOTR)
+    COSMETICUNLOCKER("CosmeticUnlockerMixin", TargetedMod.LOTR),
+    WAYPOINTUNLOCKER("WaypointUnlockerMixin", TargetedMod.LOTR),
+    NEUTRALIFIER("NPCNeutralifierMixin", TargetedMod.LOTR),
+    COMBATYEETER("CombatYeeterMixin", TargetedMod.LOTR)
 
     ;
 

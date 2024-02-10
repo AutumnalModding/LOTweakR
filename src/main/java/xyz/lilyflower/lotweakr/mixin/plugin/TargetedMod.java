@@ -1,4 +1,4 @@
-package io.github.rpmyt.opinionation.mixin.plugin;
+package xyz.lilyflower.lotweakr.mixin.plugin;
 
 import com.google.common.io.Files;
 
@@ -15,7 +15,6 @@ public enum TargetedMod {
     // Replace with your injected mods here, but always keep VANILLA:
     VANILLA("Minecraft", "unused", true),
     LOTR("The Lord of the Rings Mod", "LOTRMod", true),
-    DRAGONAPI("DragonAPI", "DragonAPI", true)
 
     ;
 

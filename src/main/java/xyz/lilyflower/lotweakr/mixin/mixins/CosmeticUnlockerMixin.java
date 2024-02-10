@@ -1,6 +1,6 @@
-package io.github.rpmyt.opinionation.mixin.mixins.lotr;
+package xyz.lilyflower.lotweakr.mixin.mixins;
 
-import io.github.rpmyt.opinionation.Config;
+import xyz.lilyflower.lotweakr.Config;
 import lotr.common.playerdetails.ExclusiveGroup;
 import lotr.common.playerdetails.PlayerDetails;
 import org.spongepowered.asm.mixin.Mixin;

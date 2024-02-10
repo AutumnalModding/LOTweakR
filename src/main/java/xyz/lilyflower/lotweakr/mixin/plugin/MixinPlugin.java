@@ -1,4 +1,4 @@
-package io.github.rpmyt.opinionation.mixin.plugin;
+package xyz.lilyflower.lotweakr.mixin.plugin;
 
 import net.minecraft.launchwrapper.Launch;
 import org.apache.logging.log4j.LogManager;

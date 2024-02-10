@@ -1,4 +1,4 @@
-package io.github.rpmyt.opinionation.core;
+package xyz.lilyflower.lotweakr.core;
 
 import cpw.mods.fml.common.Loader;
 import net.minecraft.launchwrapper.IClassTransformer;

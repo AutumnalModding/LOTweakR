@@ -1,4 +1,4 @@
-package io.github.rpmyt.opinionation;
+package xyz.lilyflower.lotweakr;
 
 import java.io.File;
 
