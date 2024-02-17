@@ -22,7 +22,7 @@ import static java.nio.file.Files.walk;
 
 public class MixinPlugin implements IMixinConfigPlugin {
 
-    private static final Logger LOG = LogManager.getLogger("Opinionation's Mixins");
+    private static final Logger LOG = LogManager.getLogger("LOTweakR Mixins");
     private static final Path MODS_DIRECTORY_PATH = new File(Launch.minecraftHome, "mods/").toPath();
 
     @Override

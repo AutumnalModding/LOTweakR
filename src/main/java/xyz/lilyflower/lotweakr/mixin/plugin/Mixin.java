@@ -15,11 +15,15 @@ public enum Mixin {
     //
 
     // Replace with your own mixins:
-    COSMETICUNLOCKER("CosmeticUnlockerMixin", TargetedMod.LOTR),
-    WAYPOINTUNLOCKER("WaypointUnlockerMixin", TargetedMod.LOTR),
-    NEUTRALIFIER("NPCNeutralifierMixin", TargetedMod.LOTR),
-    COMBATYEETER("CombatYeeterMixin", TargetedMod.LOTR)
-
+    //COSMETICUNLOCKER("CosmeticUnlockerMixin", TargetedMod.LOTR),
+    FT_WAYPOINT_OVERRIDES("travel.FastTravelWaypointOverrideController", TargetedMod.LOTR),
+    AON_FACTION_RELATION_OVERRIDES("aon.AONFactionRelationsOverrideController", TargetedMod.LOTR),
+    GENOCIDE_MODE("entity.GenocideModeEnabler", TargetedMod.LOTR),
+    ATTACK_TIMINGS_CLIENT("client.ClientSideAttackTimingsRemoval", TargetedMod.LOTR),
+    ATTACK_TIMINGS_SERVER("entity.ServerSideAttackTimingsRemoval", TargetedMod.LOTR),
+    ENABLE_GW_DEATH("entity.EnableGreyWandererDeath", TargetedMod.LOTR),
+    INVASION_ENUM_FIXER("misc.InvasionEnumFixer", TargetedMod.LOTR),
+    FACTION_RELATION_OVERRIDES("entity.FactionRelationsOverrideController"),
     ;
 
     public final String mixinClass;

@@ -14,7 +14,7 @@ public class LOTweakRCore implements IFMLLoadingPlugin {
 
     @Override
     public String[] getASMTransformerClass() {
-        return new String[]{ASMTransformer.class.getName()};
+        return new String[]{LOTweakRTransformer.class.getName()};
     }
 
     @Override
@@ -38,21 +38,21 @@ public class LOTweakRCore implements IFMLLoadingPlugin {
     // CURSED REFLECTION MY BELOVED
     static {
         ClassLoader cl = LOTweakRCore.class.getClassLoader();
-        if (cl instanceof LaunchClassLoader) { // has to be MC's classloader. idk why MC even has its own tbh.
+        if (cl instanceof LaunchClassLoader) {
             LaunchClassLoader loader = (LaunchClassLoader) cl;
             try {
-                Field field = loader.getClass().getDeclaredField("transformerExceptions"); // LaunchWrapper transformer exceptions
+                Field field = loader.getClass().getDeclaredField("transformerExceptions"); //  LaunchWrapper transformer exceptions
                 field.setAccessible(true);
                 Object obj = field.get(loader);
 
-                // "you can't coremod a coremod" OH YEAH??? REFLECTION GOES BRRR
+                // "you can't coremod a coremod" OH YEAH??? WELL WHAT'S /THIS/ THEN???
                 if (obj instanceof Set) {
                     Set set = (Set) obj;
-                    set.remove("lotr.common.coremod"); // don't need to set the field back because Java is... one of the languages of all time, that's for sure.
+                    set.remove("lotr.common.coremod");
                 }
 
-                loader.registerTransformer("xyz.lilyflower.lotweakr.core.ASMTransformer"); // I forgot why we have to do this. It just works.
-            } catch (NoSuchFieldException | IllegalAccessException e) { // ah fuck, something broke lole
+                loader.registerTransformer("xyz.lilyflower.lotweakr.core.LOTweakRTransformer"); // register transformer early. shenanigans activated.
+            } catch (NoSuchFieldException | IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
         }

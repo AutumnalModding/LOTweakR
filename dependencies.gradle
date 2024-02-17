@@ -1,5 +1,5 @@
 // Add your dependencies here
 
 dependencies {
-    implementation rfg.deobf("curse.maven:the-lord-of-the-rings-mod-legacy-423748:4091561")
+    implementation files("libs/lotrMod.jar")
 }

@@ -28,3 +28,5 @@ world/
 *.ipr
 *.iws
 src/main/resources/mixins.*.json
+libs/
+/libs/*
