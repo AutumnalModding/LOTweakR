@@ -1,13 +1,18 @@
 package xyz.lilyflower.lotweakr.util.debug;
 
+import java.util.Set;
+import lotr.common.entity.npc.LOTREntityNPC;
 import lotr.common.world.map.LOTRWaypoint;
 import lotr.common.world.spawning.LOTRInvasions;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
+import org.reflections.Reflections;
 
 public class LTRDebuggerCommand extends CommandBase {
+    private static final Reflections NPC_SCANNER = new Reflections("lotr.common.entity.npc");
+
     @Override
     public String getCommandName() {
         return "ltdebug";
@@ -30,54 +35,72 @@ public class LTRDebuggerCommand extends CommandBase {
 
             if (args.length >= 1) {
                 switch (args[0]) {
+                    case "help":
+                    default:
+                        sendCommandHelp(player);
+                        break;
+
                     case "dumpWaypoints":
                         sendWaypointDebugInfo(player);
                         break;
 
+                    case "dumpNpcSubclasses":
+                        sendNpcClasses(player);
+                        break;
+
                     case "dumpInvasions":
                         for (LOTRInvasions invasion : LOTRInvasions.values()) {
-                            player.addChatMessage(new ChatComponentText("Found invasion '" + invasion.name() + "' - faction " + invasion.invasionFaction + "."));
+                            sendChatMessage(player, "Found invasion '" + invasion.name() + "' - faction " + invasion.invasionFaction + ".");
                         }
+                        sendChatMessage(player, "===== DUMP FINISHED, CHECK LOGS =====");
                         break;
 
                     case "invasionExists":
                         String invasion = (args[1] == null ? "thisInvasionNameDoesNotAndWillNotEverExistLmao" : args[1]);
-                        player.addChatMessage(new ChatComponentText(Boolean.toString(LOTRInvasions.forName(invasion) != null)));
-                        break;
-
-                    case "help":
-                    default:
-                        player.addChatMessage(new ChatComponentText("Available LTDEBUG verbs: "));
-                        player.addChatMessage(new ChatComponentText("    dumpWaypoints"));
-                        player.addChatMessage(new ChatComponentText("    dumpInvasions"));
-                        player.addChatMessage(new ChatComponentText("    invasionExists <INVASION>"));
+                        sendChatMessage(player, Boolean.toString(LOTRInvasions.forName(invasion) != null));
                         break;
                 }
             } else {
-                player.addChatMessage(new ChatComponentText("Available LTDEBUG verbs: "));
-                player.addChatMessage(new ChatComponentText("    dumpWaypoints"));
-                player.addChatMessage(new ChatComponentText("    dumpInvasions"));
-                player.addChatMessage(new ChatComponentText("    invasionExists <INVASION>"));
+                sendCommandHelp(player);
             }
         }
     }
 
+    private void sendNpcClasses(EntityPlayer player) {
+        Set<Class<? extends LOTREntityNPC>> npcs = NPC_SCANNER.getSubTypesOf(LOTREntityNPC.class);
+        npcs.forEach(npc -> {
+            sendChatMessage(player, "Found NPC class: " + npc.getCanonicalName().replace("lotr.common.entity.npc.", ""));
+        });
+        sendChatMessage(player, "===== DUMP FINISHED, CHECK LOGS =====");
+    }
+
+    private void sendCommandHelp(EntityPlayer player) {
+        sendChatMessage(player, "Available LTDEBUG verbs: ");
+        sendChatMessage(player, "    dumpWaypoints");
+        sendChatMessage(player, "    dumpNpcSubclasses");
+        sendChatMessage(player, "    dumpInvasions");
+        sendChatMessage(player, "    invasionExists <INVASION>");
+    }
+
     private void sendWaypointDebugInfo(EntityPlayer player) {
         for (LOTRWaypoint.Region region : LOTRWaypoint.Region.values()) {
-            player.addChatMessage(new ChatComponentText("Listing region '" + region.name() + "' waypoint coordinates:"));
+            sendChatMessage(player, "Listing region '" + region.name() + "' waypoint coordinates:");
 
             region.waypoints.forEach(waypoint -> {
-                player.addChatMessage(new ChatComponentText(("Waypoint '"
+                sendChatMessage(player, ("Waypoint '"
                         + waypoint.name()
                         + "' coordinates: "
                         + waypoint.getXCoord()
                         + " "
-                        + waypoint.getZCoord()))
+                        + waypoint.getZCoord())
                 );
             });
         }
 
-        player.addChatMessage(new ChatComponentText(""));
-
+        sendChatMessage(player, "===== DUMP FINISHED, CHECK LOGS =====");
+    }
+    
+    private void sendChatMessage(EntityPlayer player, String text) {
+        player.addChatMessage(new ChatComponentText(text));
     }
 }

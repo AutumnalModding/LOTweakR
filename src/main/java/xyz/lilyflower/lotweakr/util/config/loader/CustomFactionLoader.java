@@ -64,20 +64,20 @@ public class CustomFactionLoader implements LTRCustomDataLoader {
 
                         switch (lineNo++) {
                             case 1:
-                                name = line;
+                                name = line.split("#")[0];
                                 break;
 
                             case 2:
-                                colour = Integer.parseInt(line);
+                                colour = Integer.parseInt(line.split("#")[0]);
                                 break;
 
                             case 3:
-                                region = LOTRDimension.DimensionRegion.valueOf(line);
+                                region = LOTRDimension.DimensionRegion.valueOf(line.split("#")[0]);
                                 break;
 
                             case 4:
                                 String[] mapRegionParams = line.split(" ");
-                                if (mapRegionParams.length == 3) {
+                                if (mapRegionParams.length >= 3) {
                                     int x = Integer.parseInt(mapRegionParams[0]);
                                     int y = Integer.parseInt(mapRegionParams[1]);
                                     int r = Integer.parseInt(mapRegionParams[2]);
@@ -112,7 +112,7 @@ public class CustomFactionLoader implements LTRCustomDataLoader {
                         if (line.startsWith("CONTROL ")) {
                             String desc = line.replace("CONTROL ", "");
                             String[] split = desc.split(" ");
-                            if (split.length == 2) {
+                            if (split.length >= 2) {
                                 LOTRWaypoint waypoint = LOTRWaypoint.valueOf(split[0].toUpperCase());
                                 int radius = Integer.parseInt(split[1]);
 
@@ -123,7 +123,7 @@ public class CustomFactionLoader implements LTRCustomDataLoader {
                         if (line.startsWith("RANK ")) {
                             String desc = line.replace("RANK ", "");
                             String[] split = desc.split(" ");
-                            if (split.length == 5) {
+                            if (split.length >= 5) {
                                 String title = split[0];
                                 int alignment = Integer.parseInt(split[1]);
                                 boolean needsPledge = Boolean.parseBoolean(split[2]);
@@ -137,7 +137,7 @@ public class CustomFactionLoader implements LTRCustomDataLoader {
                         if (line.startsWith("RELATION ")) {
                             String desc = line.replace("RELATION ", "");
                             String[] split = desc.split(" ");
-                            if (split.length == 2) {
+                            if (split.length >= 2) {
                                 LOTRFaction target = LOTRFaction.valueOf(split[0]);
                                 LOTRFactionRelations.Relation relation = LOTRFactionRelations.Relation.valueOf(split[1]);
 
@@ -168,9 +168,9 @@ public class CustomFactionLoader implements LTRCustomDataLoader {
                     ranksPrivate.setAccessible(true);
                     List<LOTRFactionRank> rankList = (List<LOTRFactionRank>) ranksPrivate.get(faction);
 
-                    AtomicBoolean setPledgeRank = new AtomicBoolean(false);
+                    boolean setPledgeRank = false;
 
-                    ranks.forEach(rank -> {
+                    for (CustomFactionRank rank : ranks) {
                         LOTRFactionRank factionRank = new LOTRFactionRank(faction, rank.alignment, rank.title, false);
 
                         // TODO fix this
@@ -185,14 +185,13 @@ public class CustomFactionLoader implements LTRCustomDataLoader {
 
                         rankList.add(factionRank);
 
-                        System.out.println(rank.needsPledge);
-                        if (!setPledgeRank.get() && rank.needsPledge) {
+                        if (!setPledgeRank && rank.needsPledge) {
                             faction.setPledgeRank(factionRank);
-                            setPledgeRank.set(true);
+                            setPledgeRank = true;
                         }
+                    }
 
-                        Collections.sort(rankList);
-                    });
+                    Collections.sort(rankList);
 
                     LOTweakR.LOGGER.info("Added faction '" + name + "'");
                 }

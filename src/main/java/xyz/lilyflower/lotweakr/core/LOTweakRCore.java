@@ -37,21 +37,21 @@ public class LOTweakRCore implements IFMLLoadingPlugin {
 
     // CURSED REFLECTION MY BELOVED
     static {
-        ClassLoader cl = LOTweakRCore.class.getClassLoader();
+        ClassLoader cl = LOTweakRCore.class.getClassLoader(); // we could probably use LaunchClassLoader here?
         if (cl instanceof LaunchClassLoader) {
             LaunchClassLoader loader = (LaunchClassLoader) cl;
             try {
-                Field field = loader.getClass().getDeclaredField("transformerExceptions"); //  LaunchWrapper transformer exceptions
+                Field field = loader.getClass().getDeclaredField("transformerExceptions"); // Why is this private?
                 field.setAccessible(true);
                 Object obj = field.get(loader);
 
-                // "you can't coremod a coremod" OH YEAH??? WELL WHAT'S /THIS/ THEN???
+                // This should not be possible. But it is!
                 if (obj instanceof Set) {
                     Set set = (Set) obj;
                     set.remove("lotr.common.coremod");
                 }
 
-                loader.registerTransformer("xyz.lilyflower.lotweakr.core.LOTweakRTransformer"); // register transformer early. shenanigans activated.
+                loader.registerTransformer("xyz.lilyflower.lotweakr.core.LOTweakRTransformer"); // register transformer early, we HAVE to load after LOTR
             } catch (NoSuchFieldException | IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
